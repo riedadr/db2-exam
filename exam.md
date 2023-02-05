@@ -5,8 +5,11 @@
     ```sql
     DELIMITER $$
 
+    CREATE TRIGGER tb_user_insert BEFORE INSERT ON `user` FOR EACH ROW
     BEGIN
-    
+        IF NEW.username = '' THEN
+            SET NEW.username = 'anonymous';
+        END IF;
     END $$
     DELIMITER ;
     ```
@@ -16,8 +19,9 @@
     ```sql
     DELIMITER $$
 
+    CREATE PROCEDURE hey_folks (p_name VARCHAR(32))
     BEGIN
-    
+        SELECT CONCAT("Hallo ", p_name)
     END $$
     DELIMITER ;
     ```
@@ -27,8 +31,9 @@
     ```sql
     DELIMITER $$
 
+    CREATE TRIGGER tb_user_delete BEFORE DELETE ON `user` FOR EACH ROW
     BEGIN
-    
+        DELETE FROM posts WHERE posts.user_id = OLD.id;
     END $$
     DELIMITER ;
     ```
@@ -38,8 +43,9 @@
     ```sql
     DELIMITER $$
 
+    CREATE PROCEDURE hello_world ()
     BEGIN
-    
+        SELECT 'Hallo Welt';
     END $$
     DELIMITER ;
     ```
